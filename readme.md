@@ -1,3 +1,107 @@
-🧬 RTX Neural Physics ThreadsA real-time computer vision application that bridges the gap between skeletal tracking and procedural physics. RTX Neural Physics Threads uses MediaPipe's hand landmarks to anchor dynamic, neon-glowing ropes between your fingertips, simulating gravity and inertia in a low-latency environment.🚀 Core FeaturesBilateral Hand Tracking: Detects and tracks 10 individual fingertip anchors across two hands simultaneously.Verlet Integration Physics: Custom physics engine handles segment constraints and gravity for realistic "rope" behavior.Neural Aesthetics: Features a multi-layered rendering pipeline with:Anti-Aliased Polylines: For smooth, non-pixelated visuals.Sine-Wave Pulsing: The neon glow expands and contracts dynamically.Visual Core Simulation: A high-intensity white center mimicking real light sources.Hardware Optimized: Leverages NumPy for vectorized physics calculations, ensuring high FPS even on standard CPUs.🛠️ Installation & Setup1. Environment RequirementsEnsure you have Python 3.8 or higher installed. A webcam is required for the real-time tracking component.2. DependenciesInstall the required libraries via pip:Bashpip install opencv-python mediapipe numpy
-3. UsageRun the script directly from your terminal:Bashpython neon_tracking.py
-To Quit: Press 'q' while the display window is active.Environment Tip: The script uses an exposure offset. It performs best in rooms with high-contrast lighting (bright hands, darker background).🧠 Technical Deep-DiveThe Physics Engine: Verlet IntegrationUnlike standard Euler integration, this project utilizes Verlet Integration to maintain distance constraints between the 15 segments of each rope. This prevents the ropes from "stretching" infinitely and ensures stability.The position of each point is calculated using:$$x_{n+1} = x_n + (x_n - x_{n-1}) + a \cdot \Delta t^2$$Where:$(x_n - x_{n-1})$ represents the momentum/velocity from the previous frame.$a$ is the acceleration (gravity).Constraint satisfaction is achieved through iterative distance correction.📊 Thread Configuration TableParameterDefault ValueImpactSegments12 - 15Higher values = silkier movement; lower = stiffer ropes.Friction0.98The energy retention of the swing. 1.0 is perpetual motion.Gravity0.5The downward pull on the threads.Pulse Frequencytick * 0.2Controls how fast the neon "glow" breathes.🎨 Visual PipelineThe "Neon" effect isn't just a simple line. The draw_glowing_rope function executes a two-step render:The Aura: An anti-aliased polyline with a width modified by a math.sin pulse. This creates the "glow" that bleeds into the surrounding pixels.The Filament: A 1px white line drawn over the center of the aura, providing the "hot core" look common in high-end VFX and sci-fi displays.[!IMPORTANT]The code currently targets the fingertips (Landmark indices 4, 8, 12, 16, 20). If you want to track different joints, simply update the tips_indices list in the configuration section.🤝 ContributingContributions to improve the physics stability or add more visual shaders are welcome!Fork the Project.Create your Feature Branch (git checkout -b feature/AmazingFeature).Commit your Changes (git commit -m 'Add some AmazingFeature').Push to the Branch (git push origin feature/AmazingFeature).Open a Pull Request.📜 LicenseDistributed under the MIT License. See LICENSE for more information.Disclaimer: This project is designed for experimentation and may require manual camera exposure adjustments depending on your hardware.
+# 🧬 RTX Neural Physics Threads
+
+A real-time computer vision application that bridges the gap between skeletal tracking and procedural physics. **RTX Neural Physics Threads** uses MediaPipe's hand landmarks to anchor dynamic, neon-glowing ropes between your fingertips, simulating gravity and inertia in a low-latency environment.
+
+---
+
+## 🚀 Core Features
+
+- **Bilateral Hand Tracking**  
+  Detects and tracks 10 individual fingertip anchors across two hands simultaneously.
+
+- **Verlet Integration Physics**  
+  Custom physics engine handles segment constraints and gravity for realistic "rope" behavior.
+
+- **Neural Aesthetics**  
+  Features a multi-layered rendering pipeline with:
+  - Anti-Aliased Polylines for smooth visuals  
+  - Sine-Wave Pulsing glow animation  
+  - High-intensity white core for realistic light simulation  
+
+- **Hardware Optimized**  
+  Uses NumPy vectorization to maintain high FPS even on standard CPUs.
+
+---
+
+## 🛠️ Installation & Setup
+
+### 1. Environment Requirements
+- Python 3.8 or higher  
+- Webcam (required for real-time tracking)
+
+### 2. Dependencies
+
+```bash
+pip install opencv-python mediapipe numpy
+▶️ Usage
+python neon_tracking.py
+To Quit: Press q while the display window is active.
+
+💡 Tip: Works best in high-contrast lighting (bright hands, darker background).
+
+🧠 Technical Deep-Dive
+The Physics Engine: Verlet Integration
+
+Unlike standard Euler integration, this project utilizes Verlet Integration to maintain distance constraints between rope segments. This prevents unrealistic stretching and ensures simulation stability.
+
+The position update formula:
+
+xₙ₊₁ = xₙ + (xₙ − xₙ₋₁) + a · Δt²
+
+Where:
+
+(xₙ − xₙ₋₁) = velocity (momentum from previous frame)
+a = acceleration (gravity)
+Δt = timestep
+
+Constraint satisfaction is handled through iterative distance correction between segments.
+
+📊 Thread Configuration
+Parameter	Default Value	Impact
+Segments	12 - 15	Higher = smoother motion, Lower = stiffer ropes
+Friction	0.98	Energy retention (1.0 = no damping)
+Gravity	0.5	Downward force on threads
+Pulse Frequency	tick * 0.2	Speed of neon glow pulsing
+🎨 Visual Pipeline
+
+The neon effect is rendered in two stages:
+
+Aura Layer
+Anti-aliased polyline
+Width modulated with sin() for pulsing glow
+Filament Core
+Thin white line (1px)
+Simulates high-energy light center
+
+⚠️ Important
+
+The code currently targets fingertip landmarks:
+4, 8, 12, 16, 20
+
+To track different joints, modify the tips_indices list in the configuration section.
+
+🤝 Contributing
+
+Contributions are welcome!
+
+Fork the project
+
+Create your branch
+
+git checkout -b feature/AmazingFeature
+
+Commit your changes
+
+git commit -m "Add some AmazingFeature"
+
+Push to GitHub
+
+git push origin feature/AmazingFeature
+Open a Pull Request
+📜 License
+
+Distributed under the MIT License. See LICENSE for more information.
+
+⚠️ Disclaimer
+
+This project is experimental and may require manual camera exposure adjustments depending on your hardware.
